@@ -1,6 +1,18 @@
 {
     "files.associations": {
+        // Third-party
         "googletest/*": "cpp",
         "spdlog/*": "cpp",
+
+        // Project files
+        "paddle.h": "c",
+        "common.h": "c",
+        "puck.h": "c",
+
+        // Built-in C
+        "stdlib.h": "c",
+
+        // Built-in C++
+        // "string.h": "cpp"
     }
 }

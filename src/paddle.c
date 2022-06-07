@@ -15,3 +15,8 @@ void delete_paddle(Paddle* paddle)
 {
     free(paddle);
 }
+
+void move_paddle(Paddle* paddle)
+{
+    paddle->y += paddle->yVel;
+}

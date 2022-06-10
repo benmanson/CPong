@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pong/common.h"
+#include "common.h"
 
 #define PADDLE_WIDTH  10
 #define PADDLE_HEIGHT 100

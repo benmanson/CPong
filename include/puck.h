@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pong/common.h"
+#include "common.h"
 
 typedef struct
 {

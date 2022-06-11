@@ -19,7 +19,7 @@ void delete_paddle(Paddle* paddle)
 
 void move_paddle(Paddle* paddle)
 {
-    if (paddle->y >= SCREEN_HEIGHT | paddle->y <= 0)
+    if (paddle->y >= (SCREEN_HEIGHT - PADDLE_HEIGHT) | paddle->y <= 0)
     {
         paddle->yVel = 0;
     }

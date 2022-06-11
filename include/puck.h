@@ -2,6 +2,8 @@
 
 #include "common.h"
 
+#define PUCKSIZE 25
+
 typedef struct
 {
     int x;

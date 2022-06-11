@@ -4,7 +4,7 @@ project(CPong)
 
 add_subdirectory(vendor/googletest)
 add_subdirectory(vendor/SDL)
-add_subdirectory(vendor/spdlog)
+add_subdirectory(vendor/SDL_mixer)
 
 # Test definitions
 
@@ -14,12 +14,14 @@ add_subdirectory(test)
 
 # Source definitions
 
-include_directories("${PROJECT_SOURCE_DIR}/include")
-
-file(GLOB sources "${PROJECT_SOURCE_DIR}/src/*.c")
+file(GLOB sources "src/*.c")
 
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+
+include_directories(
+    "${SDL2_INCLUDE_DIRS}"
+    "${PROJECT_SOURCE_DIR}/include"
+)
 
 add_executable(pong ${sources})
 target_link_libraries(pong ${SDL2_LIBRARIES})

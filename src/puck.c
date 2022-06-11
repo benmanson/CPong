@@ -1,4 +1,4 @@
-#include "pong/puck.h"
+#include "puck.h"
 
 Puck* get_puck()
 {
@@ -15,6 +15,7 @@ Puck* get_puck()
 void delete_puck(Puck* puck)
 {
     free(puck);
+    puck = NULL;
 }
 
 void move_puck(Puck* puck)

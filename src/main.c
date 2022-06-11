@@ -3,21 +3,19 @@
 
 #include <SDL.h>
 
-#include "pong/common.h"
-#include "pong/paddle.h"
-#include "pong/puck.h"
+#include "common.h"
+#include "paddle.h"
+#include "pong.h"
+#include "puck.h"
 
 int main(int argc, char* argv[])
 {
-    Puck* puck = get_puck();
-
-    Paddle* paddle1 = get_paddle();
-    Paddle* paddle2 = get_paddle();
+    Pong* game = start_game();
 
     SDL_Window* window = NULL;
     SDL_Surface* surface = NULL;
 
-    if (!SDL_Init(SDL_INIT_VIDEO) < 0)
+    if ((SDL_Init(SDL_INIT_VIDEO) < 0))
     {
         printf("SDL failed to initialize. SDL_Error: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
@@ -44,8 +42,48 @@ int main(int argc, char* argv[])
 
     while (!quit)
     {
-        paddle1->yVel = 0;
-        paddle2->yVel = 0;
+        Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+
+        printf(
+            "W %d S %d UP %d DOWN %d\n",
+            keyboardState[SDL_SCANCODE_W],
+            keyboardState[SDL_SCANCODE_S],
+            keyboardState[SDL_SCANCODE_UP],
+            keyboardState[SDL_SCANCODE_DOWN]
+        );
+
+        // Paddle 1 movement
+        if (keyboardState[SDL_SCANCODE_W] & !(keyboardState[SDL_SCANCODE_S]))
+        {
+            printf("Paddle 1 up\n");
+            game->paddle1->yVel = 1;
+        }
+        else if (!(keyboardState[SDL_SCANCODE_W]) & keyboardState[SDL_SCANCODE_S])
+        {
+            printf("Paddle 1 down\n");
+            game->paddle1->yVel = -1;
+        }
+        else
+        {
+            game->paddle1->yVel = 0;
+        }
+
+        // Paddle 2 movement
+        if (keyboardState[SDL_SCANCODE_UP] & !(keyboardState[SDL_SCANCODE_DOWN]))
+        {
+            printf("Paddle 2 up\n");
+            game->paddle2->yVel = 1;
+        }
+        else if (!(keyboardState[SDL_SCANCODE_UP]) & keyboardState[SDL_SCANCODE_DOWN])
+        {
+            printf("Paddle 2 down\n");
+            game->paddle2->yVel = -1;
+        }
+        else
+        {
+            game->paddle2->yVel = 0;
+        }
+
         while (SDL_PollEvent(&e))
         {
             if (e.type == SDL_QUIT)
@@ -53,39 +91,20 @@ int main(int argc, char* argv[])
                 quit = true;
                 break;
             }
-            if (e.type == SDL_KEYDOWN)
-            {
-                switch (e.key.keysym.sym)
-                {
-                    case SDLK_w:
-                        paddle1->yVel = 1;
-                        break;
-                    case SDLK_s:
-                        paddle1->yVel = -1;
-                        break;
-                    case SDLK_UP:
-                        paddle2->yVel = 1;
-                        break;
-                    case SDLK_DOWN:
-                        paddle2->yVel = -1;
-                        break;
-                }
-            }
         }
 
-        move_paddle(paddle1);
-        move_paddle(paddle2);
-        move_puck(puck);
+        game_step(game);
 
-        printf("Puck @ %d, %d\n", puck->x, puck->y);
-        printf("Paddle1 @ %d\n", paddle1->y);
-        printf("Paddle2 @ %d\n", paddle2->y);
+        printf("Puck @ %d, %d\n", game->puck->x, game->puck->y);
+        printf("Paddle1 @ %d\n", game->paddle1->y);
+        printf("Paddle2 @ %d\n", game->paddle2->y);
         SDL_Delay(50);
     }
 
+    end_game(game);
     SDL_DestroyWindow(window);
 
     SDL_Quit();
 
-    return 0;
+    return EXIT_SUCCESS;
 }

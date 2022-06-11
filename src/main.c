@@ -8,12 +8,14 @@
 #include "pong.h"
 #include "puck.h"
 
+void render_game(SDL_Renderer* renderer, Pong* game);
+
 int main(int argc, char* argv[])
 {
     Pong* game = start_game();
 
     SDL_Window* window = NULL;
-    SDL_Surface* surface = NULL;
+    SDL_Renderer* renderer = NULL;
 
     if ((SDL_Init(SDL_INIT_VIDEO) < 0))
     {
@@ -32,17 +34,14 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    surface = SDL_GetWindowSurface(window);
-
-    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
-    SDL_UpdateWindowSurface(window);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     SDL_Event e;
     bool quit = false;
 
     while (!quit)
     {
-        Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+        const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 
         printf(
             "W %d S %d UP %d DOWN %d\n",
@@ -53,15 +52,15 @@ int main(int argc, char* argv[])
         );
 
         // Paddle 1 movement
-        if (keyboardState[SDL_SCANCODE_W] & !(keyboardState[SDL_SCANCODE_S]))
+        if (keyboardState[SDL_SCANCODE_W] & (!keyboardState[SDL_SCANCODE_S]))
         {
             printf("Paddle 1 up\n");
-            game->paddle1->yVel = 1;
+            game->paddle1->yVel = -5;
         }
-        else if (!(keyboardState[SDL_SCANCODE_W]) & keyboardState[SDL_SCANCODE_S])
+        else if ((!keyboardState[SDL_SCANCODE_W]) & keyboardState[SDL_SCANCODE_S])
         {
             printf("Paddle 1 down\n");
-            game->paddle1->yVel = -1;
+            game->paddle1->yVel = 5;
         }
         else
         {
@@ -69,15 +68,15 @@ int main(int argc, char* argv[])
         }
 
         // Paddle 2 movement
-        if (keyboardState[SDL_SCANCODE_UP] & !(keyboardState[SDL_SCANCODE_DOWN]))
+        if (keyboardState[SDL_SCANCODE_UP] & (!keyboardState[SDL_SCANCODE_DOWN]))
         {
             printf("Paddle 2 up\n");
-            game->paddle2->yVel = 1;
+            game->paddle2->yVel = -5;
         }
-        else if (!(keyboardState[SDL_SCANCODE_UP]) & keyboardState[SDL_SCANCODE_DOWN])
+        else if ((!keyboardState[SDL_SCANCODE_UP]) & keyboardState[SDL_SCANCODE_DOWN])
         {
             printf("Paddle 2 down\n");
-            game->paddle2->yVel = -1;
+            game->paddle2->yVel = 5;
         }
         else
         {
@@ -94,17 +93,48 @@ int main(int argc, char* argv[])
         }
 
         game_step(game);
+        render_game(renderer, game);
 
         printf("Puck @ %d, %d\n", game->puck->x, game->puck->y);
         printf("Paddle1 @ %d\n", game->paddle1->y);
         printf("Paddle2 @ %d\n", game->paddle2->y);
-        SDL_Delay(50);
+        SDL_Delay(10);
     }
 
     end_game(game);
+
+    SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+
+    renderer = NULL;
+    window = NULL;
 
     SDL_Quit();
 
     return EXIT_SUCCESS;
+}
+
+void render_game(SDL_Renderer* renderer, Pong* game)
+{
+    //Clear screen
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_RenderClear(renderer);
+
+    SDL_Rect paddle1Rect = { game->paddle1->x, game->paddle1->y, PADDLE_WIDTH, PADDLE_HEIGHT };
+    SDL_Rect paddle2Rect = { game->paddle2->x, game->paddle2->y, PADDLE_WIDTH, PADDLE_HEIGHT };
+    SDL_Rect fillRect = { game->puck->x, game->puck->y, PUCKSIZE, PUCKSIZE };
+
+    SDL_Rect rects[3] = { paddle1Rect, paddle2Rect, fillRect };
+    size_t n = sizeof(rects) / sizeof(rects[0]);
+
+    //Render texture to screen
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+
+    for (int i = 0; i < n; i++)
+    {
+        SDL_RenderFillRect(renderer, &(rects[i]));
+    }
+
+    //Update screen
+    SDL_RenderPresent(renderer);
 }

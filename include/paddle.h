@@ -11,9 +11,14 @@ typedef struct
     int y;
 
     int yVel;
+
+    int score;
 } Paddle;
 
-Paddle* get_paddle();
+Paddle* get_paddle(int id);
 void delete_paddle(Paddle* paddle);
 
+void reset_paddle(Paddle* paddle);
 void move_paddle(Paddle* paddle);
+
+void score(Paddle* paddle);

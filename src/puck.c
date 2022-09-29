@@ -3,12 +3,7 @@
 Puck* get_puck()
 {
     Puck* puck = (Puck*) malloc(sizeof(Puck));
-    puck->x = SCREEN_WIDTH / 2;
-    puck->y = SCREEN_HEIGHT / 2;
-
-    puck->xVel = rand() % 10;
-    puck->yVel = rand() % 5;
-
+    reset_puck(puck);
     return puck;
 }
 
@@ -18,6 +13,18 @@ void delete_puck(Puck* puck)
     puck = NULL;
 }
 
+
+void reset_puck(Puck* puck)
+{
+    puck->x = SCREEN_WIDTH / 2;
+    puck->y = SCREEN_HEIGHT / 2;
+
+    int dir = rand() % 1;
+
+    puck->xVel = dir ? 4 : -4;
+    puck->yVel = (rand() % 2) + 2;
+}
+
 void move_puck(Puck* puck)
 {
     puck->x += puck->xVel;
@@ -25,7 +32,7 @@ void move_puck(Puck* puck)
 
     if (puck->x + puck->xVel >= (SCREEN_WIDTH - PUCKSIZE) | puck->x <= 0 )
     {
-        puck->xVel *= -1;
+        reset_puck(puck);
     }
 
     if (puck->y >= (SCREEN_HEIGHT - PUCKSIZE) | puck->y <= 0 )

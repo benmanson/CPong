@@ -4,6 +4,8 @@
 #include "paddle.h"
 #include "puck.h"
 
+#include <stdio.h>
+
 typedef struct
 {
     Puck* puck;

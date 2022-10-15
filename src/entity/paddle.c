@@ -6,11 +6,12 @@
 Paddle* get_paddle(int id)
 {
     Paddle* paddle = (Paddle*) malloc(sizeof(Paddle));
+    paddle->id = id;
     paddle->score = 0;
 
     switch (id)
     {
-    case 0:
+    case -1:
         paddle->x = 0;
         break;
 

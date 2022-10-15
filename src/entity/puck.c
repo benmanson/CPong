@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "../game/common.h"
+#include "paddle.h"
 #include "puck.h"
 
 Puck* get_puck()
@@ -16,6 +17,20 @@ void delete_puck(Puck* puck)
     puck = NULL;
 }
 
+int collides(Puck* puck, Paddle* paddle)
+{
+    if (
+        paddle->x < puck->x + PUCKSIZE &&
+        paddle->x + PADDLE_WIDTH > puck->x &&
+        paddle->y < puck->y + PUCKSIZE &&
+        paddle->y + PADDLE_HEIGHT > puck->y
+    )
+    {
+        return 1;
+    }
+
+    return 0;
+}
 
 void reset_puck(Puck* puck)
 {
@@ -24,7 +39,7 @@ void reset_puck(Puck* puck)
 
     int dir = rand() % 1;
 
-    puck->xVel = dir ? 4 : -4;
+    puck->xVel = dir ? PUCK_X_SPEED : -1 * PUCK_X_SPEED;
     puck->yVel = (rand() % 2) + 2;
 }
 

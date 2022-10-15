@@ -1,10 +1,7 @@
 #pragma once
 
-#include "common.h"
-#include "paddle.h"
-#include "puck.h"
-
-#include <stdio.h>
+#include "../entity/paddle.h"
+#include "../entity/puck.h"
 
 typedef struct
 {

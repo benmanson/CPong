@@ -1,3 +1,6 @@
+#include <stdlib.h>
+
+#include "../game/common.h"
 #include "paddle.h"
 
 Paddle* get_paddle(int id)

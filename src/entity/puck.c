@@ -1,3 +1,6 @@
+#include <stdlib.h>
+
+#include "../game/common.h"
 #include "puck.h"
 
 Puck* get_puck()

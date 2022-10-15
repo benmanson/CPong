@@ -1,10 +1,5 @@
 #pragma once
 
-#include "common.h"
-
-#define PADDLE_WIDTH  25
-#define PADDLE_HEIGHT 170
-
 typedef struct
 {
     int x;

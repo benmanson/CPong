@@ -1,12 +1,14 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <SDL.h>
 
-#include "common.h"
-#include "paddle.h"
-#include "pong.h"
-#include "puck.h"
+#include "game/common.h"
+#include "game/pong.h"
+
+#include "entity/paddle.h"
+#include "entity/puck.h"
 
 void render_game(SDL_Renderer* renderer, Pong* game);
 
@@ -43,23 +45,29 @@ int main(int argc, char* argv[])
     {
         const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 
-        printf(
-            "W %d S %d UP %d DOWN %d\n",
-            keyboardState[SDL_SCANCODE_W],
-            keyboardState[SDL_SCANCODE_S],
-            keyboardState[SDL_SCANCODE_UP],
-            keyboardState[SDL_SCANCODE_DOWN]
-        );
+        // printf(
+        //     "W %d S %d UP %d DOWN %d\n",
+        //     keyboardState[SDL_SCANCODE_W],
+        //     keyboardState[SDL_SCANCODE_S],
+        //     keyboardState[SDL_SCANCODE_UP],
+        //     keyboardState[SDL_SCANCODE_DOWN]
+        // );
+
+        if (keyboardState[SDL_SCANCODE_Q])
+        {
+            quit = true;
+            break;
+        }
 
         // Paddle 1 movement
         if (keyboardState[SDL_SCANCODE_W] & (!keyboardState[SDL_SCANCODE_S]))
         {
-            printf("Paddle 1 up\n");
+            // printf("Paddle 1 up\n");
             game->paddle1->yVel = -5;
         }
         else if ((!keyboardState[SDL_SCANCODE_W]) & keyboardState[SDL_SCANCODE_S])
         {
-            printf("Paddle 1 down\n");
+            // printf("Paddle 1 down\n");
             game->paddle1->yVel = 5;
         }
         else
@@ -70,12 +78,12 @@ int main(int argc, char* argv[])
         // Paddle 2 movement
         if (keyboardState[SDL_SCANCODE_UP] & (!keyboardState[SDL_SCANCODE_DOWN]))
         {
-            printf("Paddle 2 up\n");
+            // printf("Paddle 2 up\n");
             game->paddle2->yVel = -5;
         }
         else if ((!keyboardState[SDL_SCANCODE_UP]) & keyboardState[SDL_SCANCODE_DOWN])
         {
-            printf("Paddle 2 down\n");
+            // printf("Paddle 2 down\n");
             game->paddle2->yVel = 5;
         }
         else
@@ -95,9 +103,9 @@ int main(int argc, char* argv[])
         game_step(game);
         render_game(renderer, game);
 
-        printf("Puck @ %d, %d\n", game->puck->x, game->puck->y);
-        printf("Paddle1 @ %d\n", game->paddle1->y);
-        printf("Paddle2 @ %d\n", game->paddle2->y);
+        // printf("Puck @ %d, %d\n", game->puck->x, game->puck->y);
+        // printf("Paddle1 @ %d\n", game->paddle1->y);
+        // printf("Paddle2 @ %d\n", game->paddle2->y);
         SDL_Delay(10);
     }
 

@@ -1,8 +1,13 @@
+#include <stdlib.h>
+
+#include "common.h"
 #include "pong.h"
 
 Pong* start_game()
 {
     Pong* game = (Pong *) malloc(sizeof(Pong));
+
+    int x = atoi("1203");
 
     game->puck = get_puck();
 

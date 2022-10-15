@@ -7,3 +7,4 @@
 #define PADDLE_HEIGHT 170
 
 #define PUCKSIZE 25
+#define PUCK_X_SPEED 4

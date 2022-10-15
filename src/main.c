@@ -12,7 +12,7 @@
 
 void render_game(SDL_Renderer* renderer, Pong* game);
 
-int main(int argc, char* argv[])
+int main()
 {
     Pong* game = start_game();
 
@@ -133,7 +133,7 @@ void render_game(SDL_Renderer* renderer, Pong* game)
     SDL_Rect fillRect = { game->puck->x, game->puck->y, PUCKSIZE, PUCKSIZE };
 
     SDL_Rect rects[3] = { paddle1Rect, paddle2Rect, fillRect };
-    size_t n = sizeof(rects) / sizeof(rects[0]);
+    int n = (int) sizeof(rects) / sizeof(rects[0]);
 
     //Render texture to screen
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);

@@ -5,8 +5,8 @@ typedef struct
     int x;
     int y;
 
-    int xVel;
-    int yVel;
+    float xVel;
+    float yVel;
 } Puck;
 
 Puck* get_puck();

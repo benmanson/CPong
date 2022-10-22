@@ -62,13 +62,11 @@ int main()
         // Paddle 1 movement
         if (keyboardState[SDL_SCANCODE_W] & (!keyboardState[SDL_SCANCODE_S]))
         {
-            // printf("Paddle 1 up\n");
-            game->paddle1->yVel = -5;
+            game->paddle1->yVel = -PADDLE_SPEED;
         }
         else if ((!keyboardState[SDL_SCANCODE_W]) & keyboardState[SDL_SCANCODE_S])
         {
-            // printf("Paddle 1 down\n");
-            game->paddle1->yVel = 5;
+            game->paddle1->yVel = PADDLE_SPEED;
         }
         else
         {
@@ -78,13 +76,11 @@ int main()
         // Paddle 2 movement
         if (keyboardState[SDL_SCANCODE_UP] & (!keyboardState[SDL_SCANCODE_DOWN]))
         {
-            // printf("Paddle 2 up\n");
-            game->paddle2->yVel = -5;
+            game->paddle2->yVel = -PADDLE_SPEED;
         }
         else if ((!keyboardState[SDL_SCANCODE_UP]) & keyboardState[SDL_SCANCODE_DOWN])
         {
-            // printf("Paddle 2 down\n");
-            game->paddle2->yVel = 5;
+            game->paddle2->yVel = PADDLE_SPEED;
         }
         else
         {
@@ -103,9 +99,6 @@ int main()
         game_step(game);
         render_game(renderer, game);
 
-        // printf("Puck @ %d, %d\n", game->puck->x, game->puck->y);
-        // printf("Paddle1 @ %d\n", game->paddle1->y);
-        // printf("Paddle2 @ %d\n", game->paddle2->y);
         SDL_Delay(10);
     }
 

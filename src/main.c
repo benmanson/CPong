@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 #include "game/common.h"
 #include "game/pong.h"
@@ -14,6 +15,12 @@ void render_game(SDL_Renderer* renderer, Pong* game);
 
 int main()
 {
+    SDL_version *v = (SDL_version *) malloc(sizeof(SDL_version));
+    SDL_GetVersion(v);
+
+    printf("SDL version: %i.%i.%i\n", v->major, v->minor, v->patch);
+    printf("SDL_ttf version: %i.%i.%i\n", SDL_TTF_MAJOR_VERSION, SDL_TTF_MINOR_VERSION, SDL_TTF_PATCHLEVEL);
+
     Pong* game = start_game();
 
     SDL_Window* window = NULL;

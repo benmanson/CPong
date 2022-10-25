@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(CPong)
+project(
+    CPong
+    VERSION 0.0.0
+    LANGUAGES C CXX
+)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -11,21 +15,19 @@ set(CMAKE_C_FLAGS_DEBUG "-g")
 set(CMAKE_C_FLAGS_RELEASE "-O3")
 
 add_subdirectory(vendor/googletest)
-
-# Test definitions
-enable_testing()
-add_subdirectory(test)
+add_subdirectory(vendor/SDL)
+add_subdirectory(vendor/SDL_ttf)
 
 # Source definitions
 file(GLOB_RECURSE sources "src/*.c")
 
 add_executable(pong ${sources})
 
-find_package(SDL2 REQUIRED)
-target_link_libraries(pong ${SDL2_LIBRARIES})
+target_include_directories(pong PRIVATE vendor/SDL/include)
 
-find_package(SDL2_ttf REQUIRED)
-target_link_libraries(pong SDL2_ttf::SDL2_ttf)
+target_link_libraries(pong PRIVATE SDL2)
+target_link_libraries(pong PRIVATE SDL2_ttf::SDL2_ttf)
 
-find_package(SDL2_mixer REQUIRED)
-target_link_libraries(pong SDL2_mixer::SDL2_mixer)
+# Test definitions
+enable_testing()
+add_subdirectory(test)

@@ -1,9 +1,19 @@
 # CPong
 
-Clone the repository with the ```--recurse-submodules``` flag set:
+## Requirements
+
+- CMake >= 3.10
+- C compiler i.e. clang, gcc
+- C++ compiler (for tests) i.e. clang, g++
+
+## Usage
+
+### Build
+
+Clone the repository with the ```--recurse-submodules --shallow-submodules``` flags set:
 
 ```bash
-git clone --recurse-submodules git@github.com:benmanson/CPong.git
+git clone --recurse-submodules --shallow-submodules git@github.com:benmanson/CPong.git
 ```
 
 In the root directory, run the command:
@@ -12,7 +22,9 @@ In the root directory, run the command:
 cmake -S . -B build && cmake --build build
 ```
 
-Then you can run the program from the root directory using:
+### Running
+
+After building, you can run the program from the root directory using:
 
 ```bash
 ./build/pong

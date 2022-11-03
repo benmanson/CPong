@@ -23,3 +23,7 @@ You can run the tests using:
 ```bash
 ./build/test/pong_tests
 ```
+
+TODO:
+  - Add scoreboard
+  - Add sound

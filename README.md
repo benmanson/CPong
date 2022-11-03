@@ -24,6 +24,6 @@ You can run the tests using:
 ./build/test/pong_tests
 ```
 
-TODO:
+**TODO:**
   - Add scoreboard
   - Add sound
